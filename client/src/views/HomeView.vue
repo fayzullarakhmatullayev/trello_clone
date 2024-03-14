@@ -5,7 +5,7 @@
         <Card :card="card" />
       </template>
     </draggable>
-    <button class="add__more">
+    <button class="add__more" @click="addMoreHandler">
       <PlusIcon />
       <span>Добавьте еще одну колонку</span>
     </button>
@@ -21,6 +21,14 @@ import PlusIcon from '@/components/icons/PlusIcon.vue'
 import { cards } from '@/dummy'
 
 const cardItems = ref(cards)
+
+const addMoreHandler = () => {
+  cardItems.value.push({
+    name: '',
+    id: Date.now(),
+    tasks: []
+  })
+}
 </script>
 
 <style lang="scss">

@@ -1,7 +1,12 @@
 <template>
   <div class="card__header">
     <Textarea autoResize rows="1" v-model="card.name" />
-    <button class="btn max-w-[28px]" @click="toggle" aria-haspopup="true" aria-controls="top__menu">
+    <button
+      class="btn max-w-[28px] h-[28px]"
+      @click="toggle"
+      aria-haspopup="true"
+      aria-controls="top__menu"
+    >
       <MenuIcon />
     </button>
     <Menu ref="menu" id="top__menu" :model="items" :popup="true" />
@@ -34,15 +39,9 @@ const toggle = (event: any) => {
 
 <style lang="scss">
 .card {
-  &__footer {
-    padding: 5px 10px;
-    background-color: #101204;
-    border-radius: 0 0 12px 12px;
-  }
   &__header {
     padding: 5px 10px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
     background-color: #101204;
     border-radius: 12px 12px 0 0;
@@ -60,6 +59,7 @@ const toggle = (event: any) => {
         outline: none;
         background-color: rgba($color: #fff, $alpha: 0.35);
         box-shadow: inset 0 0 0 1px var(--ds-border-focused, #388bff);
+        color: #fff;
       }
     }
   }
