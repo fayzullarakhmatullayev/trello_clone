@@ -3,6 +3,8 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import PrimeVue from 'primevue/config'
+import 'primeicons/primeicons.css'
+import 'primevue/resources/themes/aura-light-green/theme.css'
 
 import App from './App.vue'
 import router from './router'
