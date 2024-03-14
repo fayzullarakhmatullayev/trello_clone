@@ -101,7 +101,7 @@ onMounted(() => {
   }
 }
 .p-menu {
-  background-color: #101204;
+  background: #101204;
   padding: 4px;
   border-radius: 6px;
   min-width: 100px;
@@ -113,6 +113,12 @@ onMounted(() => {
     gap: 3px;
     width: 100%;
   }
+  .p-menuitem-content {
+    &:hover .p-menuitem-text {
+      color: #101204 !important;
+    }
+  }
+
   .p-menuitem {
     width: 100%;
     margin: 0 !important;
@@ -130,9 +136,6 @@ onMounted(() => {
     transition: all 0.3s ease;
     line-height: 1.1;
     font-size: 12px;
-    &:hover .p-menuitem-text {
-      color: #101204;
-    }
   }
   .p-menuitem-text {
     color: #abb6c1;
