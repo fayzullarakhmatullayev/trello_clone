@@ -1,37 +1,30 @@
 <template>
-  <div class="mx-auto my-6 grid grid-cols-2 gap-6 container">
-    <Table class="max-w-[400px] w-full">
-      <draggable :list="names" item-key="name" :tag="'tbody'">
-        <template #item="{ element }">
-          <TableRow class="w-full block">
-            <TableCell class="font-medium">{{ element.id }}</TableCell>
-            <TableCell class="font-medium">{{ element.name }}</TableCell>
-          </TableRow>
-        </template>
-      </draggable>
-    </Table>
-    <pre>{{ names }}</pre>
+  <div class="wrapper flex flex-col">
+    <draggable :list="cardItems" class="flex gap-4 flex-1" itemKey="id">
+      <template #item="{ element: card }">
+        <CardItem :card="card" />
+      </template>
+    </draggable>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-
 import draggable from 'vuedraggable'
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 
-const names = ref([
-  {
-    name: 'John',
-    id: 0
-  },
-  {
-    name: 'Joao',
-    id: 1
-  },
-  {
-    name: 'Jean',
-    id: 2
-  }
-])
+import CardItem from '@/components/CardItem.vue'
+import { cards } from '@/dummy'
+
+const cardItems = ref(cards)
 </script>
+
+<style lang="scss">
+.lists {
+  @apply flex gap-6;
+}
+.wrapper {
+  padding: 20px;
+  user-select: none;
+  flex: 1;
+}
+</style>
