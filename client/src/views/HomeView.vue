@@ -5,10 +5,21 @@
         <Card :card="card" />
       </template>
     </draggable>
-    <button class="add__more" @click="addMoreHandler">
-      <PlusIcon />
-      <span>Добавьте еще одну колонку</span>
-    </button>
+    <div class="add__more--wrapper">
+      <button class="add__more" @click="isFormOpen = true" v-if="!isFormOpen">
+        <PlusIcon />
+        <span>Добавьте еще одну колонку</span>
+      </button>
+      <div class="add__more--form" v-else>
+        <CardForm
+          placeholder="Ввести заголовок списка"
+          btnTitle="Добавить список"
+          rows="1"
+          @closeForm="isFormOpen = false"
+          @submitHandler="addMoreHandler"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -17,14 +28,16 @@ import { ref } from 'vue'
 import draggable from 'vuedraggable'
 
 import Card from '@/components/card/Card.vue'
+import CardForm from '@/components/card/CardForm.vue'
 import PlusIcon from '@/components/icons/PlusIcon.vue'
 import { cards } from '@/dummy'
 
 const cardItems = ref(cards)
+const isFormOpen = ref(false)
 
-const addMoreHandler = () => {
+const addMoreHandler = (text: string) => {
   cardItems.value.push({
-    name: '',
+    name: text,
     id: Date.now(),
     tasks: []
   })
@@ -43,7 +56,7 @@ const addMoreHandler = () => {
 }
 .add__more {
   background-color: rgba($color: #ffffff, $alpha: 0.1);
-  width: 272px;
+  width: 100%;
   cursor: pointer;
   font-size: 12px;
   padding: 10px 20px;
@@ -63,6 +76,16 @@ const addMoreHandler = () => {
     max-width: 20px;
     width: 100%;
     height: 20px;
+  }
+
+  &--wrapper {
+    width: 272px;
+  }
+  &--form {
+    width: 100%;
+    background-color: #101204;
+    border-radius: 12px;
+    padding: 5px;
   }
 }
 </style>

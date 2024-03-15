@@ -1,44 +1,65 @@
 <template>
   <div class="card__list--item" ref="cardListRef">
-    <Button
-      type="button"
-      icon="pi pi-ellipsis-v"
-      @click="toggle"
-      aria-haspopup="true"
-      aria-controls="overlay_menu"
-      class="btn max-w-[24px] h-[24px] !rounded-full card__list--btn"
-    />
-    <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
-    <Textarea
-      rows="1"
-      autoResize
-      class="resize-none"
-      v-model="task.text"
-      :disabled="isDisabled"
-    ></Textarea>
+    <template v-if="!isFormOpen">
+      <Button
+        type="button"
+        icon="pi pi-ellipsis-v"
+        @click="toggle"
+        aria-haspopup="true"
+        aria-controls="overlay_menu"
+        class="btn max-w-[24px] h-[24px] !rounded-full card__list--btn"
+      />
+      <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
+        <template #item="{ item, props }">
+          <a class="flex align-items-center" v-bind="props.action" @click="clickHandler(item)">
+            <span :class="item.icon" />
+            <span class="ml-2">{{ item.label }}</span>
+          </a>
+        </template>
+      </Menu>
+      <Textarea
+        rows="1"
+        autoResize
+        class="resize-none"
+        v-model="task.text"
+        :disabled="isDisabled"
+      ></Textarea>
+    </template>
+    <div class="w-full p-2" v-else>
+      <CardForm
+        rows="1"
+        btnTitle="Сохранить"
+        :textAreaValue="task.text"
+        @close-form="isFormOpen = false"
+        @submit-handler="submitHandler"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import Textarea from 'primevue/textarea'
 import Menu from 'primevue/menu'
 import Button from 'primevue/button'
-defineProps<{ task: any }>()
+import CardForm from '@/components/card/CardForm.vue'
+const props = defineProps<{ task: any }>()
 
 const isDisabled = ref(true)
 const cardListRef = ref()
-const textareaEl = ref<HTMLTextAreaElement | null>(null)
+const isFormOpen = ref(false)
 
 const menu = ref()
 const items = ref([
   {
-    label: 'Refresh',
-    icon: 'pi pi-refresh'
+    label: 'Редактировать',
+    icon: 'pi pi-pencil',
+    name: 'edit'
   },
   {
-    label: 'Export',
-    icon: 'pi pi-upload'
+    label: 'Удалить',
+    icon: 'pi pi-trash',
+    name: 'delete'
   }
 ])
 
@@ -46,16 +67,14 @@ const toggle = (event: any) => {
   menu.value.toggle(event)
 }
 
-const clickHandler = () => {
-  isDisabled.value = false
-  nextTick(() => {
-    textareaEl.value?.focus()
-  })
+const clickHandler = (item: any) => {
+  if (item.name === 'edit') {
+    isFormOpen.value = true
+  }
 }
-
-onMounted(() => {
-  textareaEl.value = cardListRef.value.querySelector('.p-inputtextarea')
-})
+const submitHandler = (text: string) => {
+  props.task.text = text
+}
 </script>
 
 <style lang="scss">
@@ -101,7 +120,6 @@ onMounted(() => {
   }
 }
 .p-menu {
-  background: #101204;
   padding: 4px;
   border-radius: 6px;
   min-width: 100px;
@@ -112,11 +130,6 @@ onMounted(() => {
     align-items: center;
     gap: 3px;
     width: 100%;
-  }
-  .p-menuitem-content {
-    &:hover .p-menuitem-text {
-      color: #101204 !important;
-    }
   }
 
   .p-menuitem {
@@ -136,9 +149,6 @@ onMounted(() => {
     transition: all 0.3s ease;
     line-height: 1.1;
     font-size: 12px;
-  }
-  .p-menuitem-text {
-    color: #abb6c1;
   }
 }
 </style>

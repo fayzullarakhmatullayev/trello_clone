@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-[272px] min-w-[272px] flex flex-col flex-1 card">
     <CardHeader :card="card" />
-    <div class="flex-1 overflow-y-auto list">
+    <div class="flex-1 overflow-y-auto list" ref="cardListRef">
       <draggable
         :list="card.tasks"
         group="cards"
@@ -13,7 +13,7 @@
         </template>
       </draggable>
     </div>
-    <CardFooter />
+    <CardFooter @addCard="addCard" />
   </div>
 </template>
 
@@ -23,8 +23,17 @@ import draggable from 'vuedraggable'
 import CardHeader from '@/components/card/CardHeader.vue'
 import CardItem from '@/components/card/CardItem.vue'
 import CardFooter from '@/components/card/CardFooter.vue'
+import { ref } from 'vue'
 
-defineProps<{ card: any }>()
+const props = defineProps<{ card: any }>()
+const cardListRef = ref()
+
+const addCard = (text: string) => {
+  props.card.tasks.push({
+    text,
+    id: Date.now()
+  })
+}
 </script>
 
 <style lang="scss">
@@ -50,6 +59,14 @@ defineProps<{ card: any }>()
   &:active,
   &:hover {
     background-color: #a6c5e229;
+  }
+  &--primary {
+    background: #0c66e4;
+    color: #fff;
+    &:active,
+    &:hover {
+      background-color: #0153c5;
+    }
   }
 }
 .card__list {

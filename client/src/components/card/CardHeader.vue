@@ -21,16 +21,7 @@ import MenuIcon from '@/components/icons/MenuIcon.vue'
 defineProps<{ card: any }>()
 
 const menu = ref()
-const items = ref([
-  {
-    label: 'Refresh',
-    icon: 'pi pi-refresh'
-  },
-  {
-    label: 'Export',
-    icon: 'pi pi-upload'
-  }
-])
+const items = ref([{ label: 'Удалить', icon: 'pi pi-trash' }])
 
 const toggle = (event: any) => {
   menu.value.toggle(event)
