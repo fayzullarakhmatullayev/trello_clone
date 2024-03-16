@@ -39,19 +39,16 @@ const toggle = (event: any) => {
     gap: 16px;
 
     textarea {
-      background: transparent;
+      &:not(:focus) {
+        background: transparent;
+        color: #abb6c1;
+      }
+      cursor: pointer;
       border-radius: 5px;
       resize: none;
       padding: 3px 5px;
       font-size: 14px;
       width: 100%;
-      color: #abb6c1;
-      &:focus {
-        outline: none;
-        background-color: rgba($color: #fff, $alpha: 0.35);
-        box-shadow: inset 0 0 0 1px var(--ds-border-focused, #388bff);
-        color: #fff;
-      }
     }
   }
 }

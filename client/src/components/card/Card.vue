@@ -23,7 +23,7 @@ import draggable from 'vuedraggable'
 import CardHeader from '@/components/card/CardHeader.vue'
 import CardItem from '@/components/card/CardItem.vue'
 import CardFooter from '@/components/card/CardFooter.vue'
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 
 const props = defineProps<{ card: any }>()
 const cardListRef = ref()
@@ -33,12 +33,17 @@ const addCard = (text: string) => {
     text,
     id: Date.now()
   })
+  nextTick(() => {
+    const cardList = cardListRef.value.querySelector('.card__list')
+    cardList.scrollIntoView({ block: 'end' })
+  })
 }
 </script>
 
 <style lang="scss">
 .card {
   height: fit-content;
+  max-height: 82vh;
 }
 
 .btn {

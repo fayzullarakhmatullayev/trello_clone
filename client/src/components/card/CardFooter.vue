@@ -36,6 +36,7 @@ const submitHandler = (text: string) => {
     padding: 5px 10px;
     background-color: #101204;
     border-radius: 0 0 12px 12px;
+    width: 100%;
     &--form {
       textarea {
         width: 100%;
@@ -43,6 +44,7 @@ const submitHandler = (text: string) => {
         resize: none;
         padding: 6px 10px;
         margin-bottom: 6px;
+        display: block;
       }
     }
     &--wrapper {
@@ -55,5 +57,8 @@ const submitHandler = (text: string) => {
       }
     }
   }
+}
+.p-menu .p-menuitem > .p-menuitem-content .p-menuitem-link .p-menuitem-icon {
+  color: #fff;
 }
 </style>

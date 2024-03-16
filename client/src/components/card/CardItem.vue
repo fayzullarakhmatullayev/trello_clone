@@ -17,15 +17,9 @@
           </a>
         </template>
       </Menu>
-      <Textarea
-        rows="1"
-        autoResize
-        class="resize-none"
-        v-model="task.text"
-        :disabled="isDisabled"
-      ></Textarea>
+      <div class="card__list--text" v-html="task.text" />
     </template>
-    <div class="w-full p-2" v-else>
+    <div class="w-full p-1" v-else>
       <CardForm
         rows="1"
         btnTitle="Сохранить"
@@ -38,14 +32,12 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-import Textarea from 'primevue/textarea'
+import { ref } from 'vue'
 import Menu from 'primevue/menu'
 import Button from 'primevue/button'
 import CardForm from '@/components/card/CardForm.vue'
 const props = defineProps<{ task: any }>()
 
-const isDisabled = ref(true)
 const cardListRef = ref()
 const isFormOpen = ref(false)
 
@@ -79,6 +71,17 @@ const submitHandler = (text: string) => {
 
 <style lang="scss">
 .card__list {
+  &--text {
+    width: 100%;
+    background: transparent;
+    padding: 8px;
+    outline: 1px solid transparent;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    &:hover {
+      outline: 1px solid #60a5fa;
+    }
+  }
   &--item {
     background-color: #22272b;
     border-radius: 6px;
@@ -86,15 +89,6 @@ const submitHandler = (text: string) => {
 
     font-size: 12px;
     user-select: none !important;
-
-    textarea {
-      width: 100%;
-      background: transparent;
-      padding: 8px;
-      &:disabled {
-        pointer-events: none;
-      }
-    }
 
     .p-button .p-button-label {
       display: none;
