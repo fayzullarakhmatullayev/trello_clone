@@ -1,29 +1,27 @@
 <template>
   <header class="header">
-    <div class="container mx-auto">
-      <div class="flex justify-between items-center">
-        <RouterLink class="font-extrabold flex items-center gap-2" to="/">
-          <img src="@/assets/icon.ico" width="24" height="24" alt="icon" /> Trello Clone</RouterLink
+    <div class="flex justify-between items-center gap-4">
+      <RouterLink class="font-extrabold flex items-center gap-2" to="/">
+        <img src="@/assets/icon.ico" width="24" height="24" alt="icon" /> Trello Clone</RouterLink
+      >
+      <div class="header__user flex items-center gap-2">
+        <div class="header__user--name">Добро пожаловать, <span>John Doe</span></div>
+        <button
+          class="header__user--avatar"
+          @click="toggle"
+          aria-haspopup="true"
+          aria-controls="overlay_menu"
         >
-        <div class="header__user flex items-center gap-2">
-          <div class="header__user--name">Добро пожаловать, <span>John Doe</span></div>
-          <button
-            class="header__user--avatar"
-            @click="toggle"
-            aria-haspopup="true"
-            aria-controls="overlay_menu"
-          >
-            JD
-          </button>
-          <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
-            <template #item="{ item, props }">
-              <a class="flex align-items-center" v-bind="props.action" @click="logout">
-                <span :class="item.icon" />
-                <span class="ml-2">{{ item.label }}</span>
-              </a>
-            </template>
-          </Menu>
-        </div>
+          JD
+        </button>
+        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
+          <template #item="{ item, props }">
+            <a class="flex align-items-center" v-bind="props.action" @click="logout">
+              <span :class="item.icon" />
+              <span class="ml-2">{{ item.label }}</span>
+            </a>
+          </template>
+        </Menu>
       </div>
     </div>
   </header>
@@ -52,7 +50,7 @@ const logout = () => {
 <style lang="scss">
 .header {
   background-color: #0a142b;
-  padding: 16px;
+  padding: 16px 20px;
   backdrop-filter: blur(5px);
 
   width: 100%;

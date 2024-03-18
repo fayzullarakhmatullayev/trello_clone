@@ -26,6 +26,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  overflow-x: hidden;
   &__img {
     position: absolute;
     bottom: 0;
@@ -74,13 +75,16 @@
         display: block;
         margin: 0 auto 16px;
       }
+      label {
+        font-size: 14px;
+      }
     }
     &--input {
       width: 100%;
       display: block;
-      padding: 12px;
+      padding: 10px 12px;
       background-color: #f1f1f1;
-      font-size: 10px;
+      font-size: 16px;
     }
     &--text {
       font-size: 12px;

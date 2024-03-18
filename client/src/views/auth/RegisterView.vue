@@ -47,7 +47,7 @@
     <button type="submit" class="btn btn--primary">Зарегистрироваться</button>
   </form>
   <div class="auth__block--text">
-    У вас уже есть аккаунт, пожалуйста, <RouterLink to="/login">войдите</RouterLink>
+    У вас уже есть аккаунт? <RouterLink to="/login">Войдите</RouterLink>
   </div>
 </template>
 
