@@ -15,6 +15,7 @@ coverage
 *.local
 .vscode
 package-lock.json
+*.env
 
 /cypress/videos/
 /cypress/screenshots/
