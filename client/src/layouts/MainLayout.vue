@@ -1,6 +1,7 @@
 <template>
   <div class="flex-1 flex flex-col overflow-y-hidden overflow-x-auto">
     <AppHeader />
+
     <slot />
   </div>
 </template>

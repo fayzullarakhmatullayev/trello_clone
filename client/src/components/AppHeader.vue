@@ -2,7 +2,9 @@
   <header class="header">
     <div class="container mx-auto">
       <div class="flex justify-between items-center">
-        <RouterLink class="font-extrabold" to="/">Trello Clone</RouterLink>
+        <RouterLink class="font-extrabold flex items-center gap-2" to="/">
+          <img src="@/assets/icon.ico" width="24" height="24" alt="icon" /> Trello Clone</RouterLink
+        >
         <div class="header__user flex items-center gap-2">
           <div class="header__user--name">Добро пожаловать, <span>John Doe</span></div>
           <button

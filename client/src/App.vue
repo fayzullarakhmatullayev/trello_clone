@@ -8,16 +8,17 @@
 
 <script lang="ts">
 import MainLayout from '@/layouts/MainLayout.vue'
-import AuthLayout from '@/layouts/MainLayout.vue'
+import AuthLayout from '@/layouts/AuthLayout.vue'
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 export default {
   components: {
     MainLayout,
     AuthLayout
   },
   setup() {
-    const layout = computed(() => 'main-layout')
-
+    const route = useRoute()
+    const layout = computed(() => `${route.meta.layout || 'auth'}-layout`)
     return {
       layout
     }

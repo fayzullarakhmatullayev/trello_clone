@@ -78,6 +78,7 @@ const submitHandler = (text: string) => {
     outline: 1px solid transparent;
     transition: all 0.3s ease;
     border-radius: 6px;
+    cursor: pointer;
     &:hover {
       outline: 1px solid #60a5fa;
     }
