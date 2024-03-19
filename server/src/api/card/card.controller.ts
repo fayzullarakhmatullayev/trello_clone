@@ -2,6 +2,11 @@ import { Request, Response } from 'express';
 import Card from './card.model';
 import Task from '../task/task.model';
 
+interface ICardInfo {
+  card_id: number | string;
+  position: number | string;
+}
+
 // Controller to create a new card
 export const createCard = async (req: Request, res: Response) => {
   try {
@@ -95,6 +100,28 @@ export const deleteCard = async (req: Request, res: Response) => {
     res.json({ message: 'Card deleted successfully' });
   } catch (error) {
     console.error('Error deleting card:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const updateCardPosition = async (req: Request, res: Response) => {
+  try {
+    const { cardPositions } = req.body;
+
+    await Promise.all(
+      cardPositions.map(async (cardInfo: ICardInfo) => {
+        const { card_id, position } = cardInfo;
+        const card = await Card.findByPk(card_id);
+        if (card) {
+          card.dataValues.position = position;
+          await card.save();
+        }
+      })
+    );
+
+    res.json({ message: 'Card order updated successfully' });
+  } catch (error) {
+    console.error('Error updating card order:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };

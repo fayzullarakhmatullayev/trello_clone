@@ -16,6 +16,10 @@ const Card = sequelize.define('card', {
       key: 'id'
     }
   },
+  position: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
   title: {
     type: DataTypes.STRING(255),
     allowNull: false

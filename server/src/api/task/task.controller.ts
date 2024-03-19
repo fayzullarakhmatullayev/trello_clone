@@ -1,6 +1,11 @@
 import { Request, Response } from 'express';
 import Task from './task.model';
 
+interface ITaskInfo {
+  task_id: number | string;
+  position: number | string;
+}
+
 // Controller to create a new task
 export const createTask = async (req: Request, res: Response) => {
   try {
@@ -58,6 +63,30 @@ export const deleteTask = async (req: Request, res: Response) => {
     res.json({ message: 'Task deleted successfully' });
   } catch (error) {
     console.error('Error deleting task:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const updateTaskPosition = async (req: Request, res: Response) => {
+  try {
+    const { taskPositions } = req.body; // taskOrder is an array of task IDs with their new positions
+    // Example taskOrder: [{ taskId: 1, position: 0 }, { taskId: 2, position: 1 }, ...]
+
+    // Update the order of tasks in the database
+    await Promise.all(
+      taskPositions.map(async (taskInfo: ITaskInfo) => {
+        const { task_id, position } = taskInfo;
+        const task = await Task.findByPk(task_id);
+        if (task) {
+          task.dataValues.position = position;
+          await task.save();
+        }
+      })
+    );
+
+    res.json({ message: 'Task order updated successfully' });
+  } catch (error) {
+    console.error('Error updating task order:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };

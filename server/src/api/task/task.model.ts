@@ -16,6 +16,10 @@ const Task = sequelize.define('task', {
       key: 'card_id'
     }
   },
+  position: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
   text: {
     type: DataTypes.STRING(255),
     allowNull: false
