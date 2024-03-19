@@ -35,14 +35,12 @@ export const getAllCards = async (req: Request, res: Response) => {
     // Retrieve all cards associated with the user_id
     const cards = await Card.findAll({
       where: { user_id },
-      include: [
-        {
-          model: Task,
-          as: 'tasks',
-          order: [['position', 'ASC']]
-        }
-      ],
+      include: [Task],
       order: [['position', 'ASC']]
+    });
+
+    cards.forEach((card) => {
+      card.dataValues.tasks.sort((a: any, b: any) => a.position - b.position);
     });
 
     res.json(cards);
@@ -60,13 +58,7 @@ export const getCardById = async (req: Request, res: Response) => {
     // Find the card by card_id and user_id
     const card = await Card.findOne({
       where: { card_id, user_id },
-      include: [
-        {
-          model: Task,
-          as: 'tasks',
-          order: [['position', 'ASC']]
-        }
-      ]
+      include: [Task]
     });
 
     if (!card) {
@@ -89,13 +81,7 @@ export const updateCard = async (req: Request, res: Response) => {
     // Find the card by card_id and user_id
     const card = await Card.findOne({
       where: { card_id, user_id },
-      include: [
-        {
-          model: Task,
-          as: 'tasks',
-          order: [['position', 'ASC']]
-        }
-      ]
+      include: [Task]
     });
 
     if (!card) {

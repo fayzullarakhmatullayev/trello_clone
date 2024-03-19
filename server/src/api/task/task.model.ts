@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../libs/sequelize';
-import Card from '../card/card.model';
 
 const Task = sequelize.define('task', {
   task_id: {
@@ -10,11 +9,7 @@ const Task = sequelize.define('task', {
   },
   card_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: Card,
-      key: 'card_id'
-    }
+    allowNull: false
   },
   position: {
     type: DataTypes.INTEGER,
@@ -25,8 +20,5 @@ const Task = sequelize.define('task', {
     allowNull: false
   }
 });
-
-Task.belongsTo(Card, { foreignKey: 'card_id' });
-Card.hasMany(Task, { foreignKey: 'card_id' });
 
 export default Task;

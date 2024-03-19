@@ -36,17 +36,20 @@ const cardListRef = ref()
 const store = useCardStore()
 
 const addTask = async (text: string) => {
-  await postCardTask({
-    text,
-    card_id: props.card.card_id,
-    position: props.card.tasks.length
-  })
-  store.triggerCardLoad = true
-  nextTick(async () => {
-    await sleep(50)
-    const cardList = cardListRef.value.querySelector('.card__list')
-    cardList.scrollIntoView({ block: 'end' })
-  })
+  try {
+    await postCardTask({
+      text,
+      card_id: props.card.card_id,
+      position: props.card.tasks.length
+    })
+    store.triggerCardLoad = true
+  } finally {
+    nextTick(async () => {
+      await sleep(50)
+      const cardList = cardListRef.value.querySelector('.card__list')
+      cardList.scrollIntoView({ block: 'end' })
+    })
+  }
 }
 </script>
 

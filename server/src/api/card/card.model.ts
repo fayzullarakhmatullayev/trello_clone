@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../libs/sequelize';
-import User from '../user/user.model';
+import Task from '../task/task.model';
 
 const Card = sequelize.define('card', {
   card_id: {
@@ -10,11 +10,7 @@ const Card = sequelize.define('card', {
   },
   user_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: User,
-      key: 'id'
-    }
+    allowNull: false
   },
   position: {
     type: DataTypes.INTEGER,
@@ -26,7 +22,12 @@ const Card = sequelize.define('card', {
   }
 });
 
-Card.belongsTo(User, { foreignKey: 'user_id' });
-User.hasMany(Card, { foreignKey: 'user_id' });
+Card.hasMany(Task, {
+  onDelete: 'CASCADE',
+  foreignKey: {
+    allowNull: false,
+    name: 'card_id'
+  }
+});
 
 export default Card;

@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../libs/sequelize';
+import Card from '../card/card.model';
 
 const User = sequelize.define('user', {
   id: {
@@ -23,6 +24,14 @@ const User = sequelize.define('user', {
   password: {
     type: DataTypes.STRING(255),
     allowNull: false
+  }
+});
+
+User.hasMany(Card, {
+  onDelete: 'CASCADE',
+  foreignKey: {
+    allowNull: false,
+    name: 'user_id'
   }
 });
 
