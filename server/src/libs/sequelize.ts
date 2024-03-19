@@ -26,7 +26,7 @@ export const dbConnection = async () => {
 
 export const performMigration = async () => {
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
     console.log('Migration successful!');
   } catch (error) {
     console.error('Error performing migration:', error);
