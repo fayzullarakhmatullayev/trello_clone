@@ -13,27 +13,37 @@
         </template>
       </draggable>
     </div>
-    <CardFooter @addCard="addCard" />
+
+    <CardFooter @addCard="addTask" />
   </div>
 </template>
 
 <script lang="ts" setup>
+import { nextTick, ref } from 'vue'
 import draggable from 'vuedraggable'
 
 import CardHeader from '@/components/card/CardHeader.vue'
 import CardItem from '@/components/card/CardItem.vue'
 import CardFooter from '@/components/card/CardFooter.vue'
-import { nextTick, ref } from 'vue'
+import type { ICard } from '@/services/dto/card.dto'
 
-const props = defineProps<{ card: any }>()
+import { postCardTask } from '@/services/taskService'
+import { useCardStore } from '@/stores/card'
+import { sleep } from '@/utils'
+
+const props = defineProps<{ card: ICard }>()
 const cardListRef = ref()
+const store = useCardStore()
 
-const addCard = (text: string) => {
-  props.card.tasks.push({
+const addTask = async (text: string) => {
+  await postCardTask({
     text,
-    id: Date.now()
+    card_id: props.card.card_id,
+    position: props.card.tasks.length
   })
-  nextTick(() => {
+  store.triggerCardLoad = true
+  nextTick(async () => {
+    await sleep(50)
     const cardList = cardListRef.value.querySelector('.card__list')
     cardList.scrollIntoView({ block: 'end' })
   })

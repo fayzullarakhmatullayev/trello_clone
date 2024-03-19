@@ -85,11 +85,7 @@ const submitHandler = async () => {
     const { data } = await register(rest)
     store.setStoreToken(data.token)
     store.setUser(data.user)
-    toast.add({
-      severity: 'success',
-      summary: `Добро пожаловать, ${data.user?.firstName} ${data.user?.lastName}`,
-      life: 3000
-    })
+    window.location.reload()
   } catch (err: any) {
     toast.add({
       severity: 'error',

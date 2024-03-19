@@ -33,10 +33,13 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import Menu from 'primevue/menu'
 import Button from 'primevue/button'
 import CardForm from '@/components/card/CardForm.vue'
-const props = defineProps<{ task: any }>()
+
+import type { ITask } from '@/services/dto/task.dto'
+const props = defineProps<{ task: ITask }>()
 
 const cardListRef = ref()
 const isFormOpen = ref(false)

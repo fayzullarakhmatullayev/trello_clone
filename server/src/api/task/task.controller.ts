@@ -9,12 +9,13 @@ interface ITaskInfo {
 // Controller to create a new task
 export const createTask = async (req: Request, res: Response) => {
   try {
-    const { card_id, text } = req.body;
+    const { card_id, text, position } = req.body;
 
     // Create a new task
     const newTask = await Task.create({
       card_id,
-      text
+      text,
+      position
     });
 
     res.status(201).json(newTask);

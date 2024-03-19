@@ -11,12 +11,13 @@ interface ICardInfo {
 export const createCard = async (req: Request, res: Response) => {
   try {
     const { user_id } = req;
-    const { title } = req.body;
+    const { title, position } = req.body;
 
     // Create a new card associated with the user_id
     const newCard = await Card.create({
       user_id,
-      title
+      title,
+      position
     });
 
     res.status(201).json(newCard);
@@ -32,7 +33,17 @@ export const getAllCards = async (req: Request, res: Response) => {
     const { user_id } = req;
 
     // Retrieve all cards associated with the user_id
-    const cards = await Card.findAll({ where: { user_id }, include: [Task] });
+    const cards = await Card.findAll({
+      where: { user_id },
+      include: [
+        {
+          model: Task,
+          as: 'tasks',
+          order: [['position', 'ASC']]
+        }
+      ],
+      order: [['position', 'ASC']]
+    });
 
     res.json(cards);
   } catch (error) {
@@ -47,7 +58,16 @@ export const getCardById = async (req: Request, res: Response) => {
     const card_id = req.params.card_id;
 
     // Find the card by card_id and user_id
-    const card = await Card.findOne({ where: { card_id, user_id }, include: [Task] });
+    const card = await Card.findOne({
+      where: { card_id, user_id },
+      include: [
+        {
+          model: Task,
+          as: 'tasks',
+          order: [['position', 'ASC']]
+        }
+      ]
+    });
 
     if (!card) {
       return res.status(404).json({ error: 'Card not found' });
@@ -67,7 +87,16 @@ export const updateCard = async (req: Request, res: Response) => {
     const { title } = req.body;
 
     // Find the card by card_id and user_id
-    const card = await Card.findOne({ where: { card_id, user_id }, include: [Task] });
+    const card = await Card.findOne({
+      where: { card_id, user_id },
+      include: [
+        {
+          model: Task,
+          as: 'tasks',
+          order: [['position', 'ASC']]
+        }
+      ]
+    });
 
     if (!card) {
       return res.status(404).json({ error: 'Card not found' });

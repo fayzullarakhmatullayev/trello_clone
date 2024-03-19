@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper flex items-start gap-4">
-    <draggable :list="cardItems" class="flex gap-4 flex-1" itemKey="id">
+    <draggable :list="cardItems" class="flex gap-4 flex-1" itemKey="card_id">
       <template #item="{ element: card }">
         <Card :card="card" />
       </template>
@@ -24,24 +24,60 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onBeforeUnmount, ref, watch } from 'vue'
 import draggable from 'vuedraggable'
+import { useToast } from 'primevue/usetoast'
+
+import type { ICard } from '@/services/dto/card.dto'
+import { getAllCards, postCard } from '@/services/cardService'
+import { useCardStore } from '@/stores/card'
 
 import Card from '@/components/card/Card.vue'
 import CardForm from '@/components/card/CardForm.vue'
 import PlusIcon from '@/components/icons/PlusIcon.vue'
-import { cards } from '@/dummy'
 
-const cardItems = ref(cards)
+const toast = useToast()
+const store = useCardStore()
+const cardItems = ref<ICard[]>([])
 const isFormOpen = ref(false)
 
-const addMoreHandler = (text: string) => {
-  cardItems.value.push({
-    name: text,
-    id: Date.now(),
-    tasks: []
-  })
+const fetchAllCards = async () => {
+  try {
+    const { data } = await getAllCards()
+    cardItems.value = data
+  } catch (err: any) {
+    toast.add({
+      severity: 'error',
+      summary: err?.response?.data?.error,
+      life: 3000
+    })
+  }
 }
+
+const addMoreHandler = async (title: string) => {
+  try {
+    await postCard({ title, position: cardItems.value.length })
+  } finally {
+    await fetchAllCards()
+    isFormOpen.value = false
+  }
+}
+
+watch(
+  () => store.triggerCardLoad,
+  async () => {
+    if (store.triggerCardLoad) {
+      await fetchAllCards()
+      store.triggerCardLoad = false
+    }
+  }
+)
+
+fetchAllCards()
+
+onBeforeUnmount(() => {
+  cardItems.value = []
+})
 </script>
 
 <style lang="scss">
