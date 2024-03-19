@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import logger from 'morgan';
 
 import { dbConnection } from './libs/sequelize';
 
@@ -13,7 +14,13 @@ const app = express();
 const PORT = 3000 || process.env.PORT;
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(logger('dev'));
 app.use(cors());
+
+app.get('/api', (req, res) => {
+  res.json({ success: true });
+});
 
 app.use('/api/auth', authRoutes);
 app.use('/api/card', cardRoutes);

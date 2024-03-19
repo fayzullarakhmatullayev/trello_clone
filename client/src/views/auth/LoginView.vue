@@ -32,13 +32,36 @@
 import { reactive } from 'vue'
 import InputText from 'primevue/inputtext'
 import FloatLabel from 'primevue/floatlabel'
+import { useToast } from 'primevue/usetoast'
+
+import { login } from '@/services/authServices'
+import { useAuthStore } from '@/stores/auth'
+
+const toast = useToast()
 
 const inputValues = reactive({
   email: '',
   password: ''
 })
 
-const submitHandler = () => {
-  console.log(inputValues)
+const store = useAuthStore()
+
+const submitHandler = async () => {
+  try {
+    const { data } = await login(inputValues)
+    store.setStoreToken(data.token)
+    store.setUser(data.user)
+    toast.add({
+      severity: 'success',
+      summary: `Добро пожаловать, ${data.user?.firstName} ${data.user?.lastName}`,
+      life: 3000
+    })
+  } catch (err: any) {
+    toast.add({
+      severity: 'error',
+      summary: err?.response?.data?.error,
+      life: 3000
+    })
+  }
 }
 </script>

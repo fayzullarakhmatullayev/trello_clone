@@ -5,14 +5,16 @@
         <img src="@/assets/icon.ico" width="24" height="24" alt="icon" /> Trello Clone</RouterLink
       >
       <div class="header__user flex items-center gap-2">
-        <div class="header__user--name">Добро пожаловать, <span>John Doe</span></div>
+        <div class="header__user--name">
+          Добро пожаловать, <span>{{ store.user?.firstName }} {{ store.user?.lastName }}</span>
+        </div>
         <button
           class="header__user--avatar"
           @click="toggle"
           aria-haspopup="true"
           aria-controls="overlay_menu"
         >
-          JD
+          {{ store.user?.firstName.slice(0, 1) }}{{ store.user?.lastName.slice(0, 1) }}
         </button>
         <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
           <template #item="{ item, props }">
@@ -29,6 +31,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import Menu from 'primevue/menu'
+import { useAuthStore } from '@/stores/auth'
 const items = ref([
   {
     label: 'Выход из системы',
@@ -42,8 +45,10 @@ const toggle = (event: any) => {
   menu.value.toggle(event)
 }
 
+const store = useAuthStore()
+
 const logout = () => {
-  console.log('logout')
+  store.removeStoreToken()
 }
 </script>
 
@@ -73,6 +78,7 @@ const logout = () => {
       border-radius: 50%;
       background-color: #00875a;
       display: block;
+      text-transform: uppercase;
     }
   }
 }
