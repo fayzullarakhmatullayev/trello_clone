@@ -39,10 +39,15 @@ import Button from 'primevue/button'
 import CardForm from '@/components/card/CardForm.vue'
 
 import type { ITask } from '@/services/dto/task.dto'
+import { deleteCardTask, updateCardTask } from '@/services/taskService'
+import { storeToRefs } from 'pinia'
+import { useCardStore } from '@/stores/card'
 const props = defineProps<{ task: ITask }>()
 
 const cardListRef = ref()
 const isFormOpen = ref(false)
+
+const store = useCardStore()
 
 const menu = ref()
 const items = ref([
@@ -62,13 +67,17 @@ const toggle = (event: any) => {
   menu.value.toggle(event)
 }
 
-const clickHandler = (item: any) => {
+const clickHandler = async (item: any) => {
   if (item.name === 'edit') {
     isFormOpen.value = true
+  } else {
+    await deleteCardTask(props.task.task_id)
+    store.triggerCardLoad = true
   }
 }
-const submitHandler = (text: string) => {
-  props.task.text = text
+const submitHandler = async (text: string) => {
+  await updateCardTask({ task_id: props.task.task_id, text })
+  store.triggerCardLoad = true
 }
 </script>
 

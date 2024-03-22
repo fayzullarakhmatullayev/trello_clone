@@ -13,3 +13,7 @@ export const postCard = (data: CardDto) => {
 export const removeCard = (card_id: number) => {
   return $api.delete(`/card/${card_id}`)
 }
+
+export const updateCard = (payload: { card_id: number; title: string }) => {
+  return $api.put(`/card/${payload.card_id}`, { title: payload.title })
+}

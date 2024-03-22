@@ -3,6 +3,7 @@ import Task from './task.model';
 
 interface ITaskInfo {
   task_id: number | string;
+  card_id: number | string;
   position: number | string;
 }
 
@@ -39,7 +40,8 @@ export const updateTask = async (req: Request, res: Response) => {
     }
 
     // Update the task text
-    task.dataValues.text = text;
+    // @ts-ignore
+    task.text = text;
     await task.save();
 
     res.json({ message: 'Task updated successfully' });
@@ -76,10 +78,13 @@ export const updateTaskPosition = async (req: Request, res: Response) => {
     // Update the order of tasks in the database
     await Promise.all(
       taskPositions.map(async (taskInfo: ITaskInfo) => {
-        const { task_id, position } = taskInfo;
+        const { task_id, position, card_id } = taskInfo;
         const task = await Task.findByPk(task_id);
         if (task) {
-          task.dataValues.position = position;
+          // @ts-ignore
+          task.position = position;
+          // @ts-ignore
+          task.card_id = card_id;
           await task.save();
         }
       })

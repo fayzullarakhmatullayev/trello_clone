@@ -3,8 +3,12 @@ import Card from './card.model';
 import Task from '../task/task.model';
 
 interface ICardInfo {
-  card_id: number | string;
-  position: number | string;
+  card_id: number;
+  position: number;
+  user_id: number;
+  title: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 // Controller to create a new card
@@ -40,7 +44,8 @@ export const getAllCards = async (req: Request, res: Response) => {
     });
 
     cards.forEach((card) => {
-      card.dataValues.tasks.sort((a: any, b: any) => a.position - b.position);
+      // @ts-ignore
+      card.tasks.sort((a: any, b: any) => a.position - b.position);
     });
 
     res.json(cards);
@@ -89,7 +94,8 @@ export const updateCard = async (req: Request, res: Response) => {
     }
 
     // Update the card title
-    card.dataValues.title = title;
+    // @ts-ignore
+    card.title = title;
     await card.save();
 
     res.json(card);
@@ -128,7 +134,8 @@ export const updateCardPosition = async (req: Request, res: Response) => {
         const { card_id, position } = cardInfo;
         const card = await Card.findByPk(card_id);
         if (card) {
-          card.dataValues.position = position;
+          // @ts-ignore
+          card.position = position;
           await card.save();
         }
       })

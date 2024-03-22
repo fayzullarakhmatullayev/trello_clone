@@ -1,6 +1,6 @@
 <template>
   <div class="card__header">
-    <Textarea autoResize rows="1" v-model="card.title" />
+    <Textarea autoResize rows="1" v-model="cardTitle" />
     <button
       class="btn max-w-[28px] h-[28px]"
       @click="toggle"
@@ -25,16 +25,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { removeCard } from '@/services/cardService'
+import { ref, watch } from 'vue'
+import { removeCard, updateCard } from '@/services/cardService'
 import { useCardStore } from '@/stores/card'
+import { useDebounce } from '@/utils'
 
 import Textarea from 'primevue/textarea'
 import Menu from 'primevue/menu'
 import MenuIcon from '@/components/icons/MenuIcon.vue'
 import type { ICard } from '@/services/dto/card.dto'
 
-defineProps<{ card: ICard }>()
+const props = defineProps<{ card: ICard }>()
 
 const store = useCardStore()
 const menu = ref()
@@ -44,10 +45,22 @@ const toggle = (event: any) => {
   menu.value.toggle(event)
 }
 
+const cardTitle = ref(props.card.title)
+
+const updateCardTitle = async () => {
+  if (!cardTitle.value) return
+  const payload = { card_id: props.card.card_id, title: cardTitle.value }
+  await updateCard(payload)
+}
+
 const removeCardHandler = async (card_id: number) => {
   await removeCard(card_id)
   store.triggerCardLoad = true
 }
+
+const debouncedUpdate = useDebounce(updateCardTitle, 500)
+
+watch(() => cardTitle.value, debouncedUpdate)
 </script>
 
 <style lang="scss">
