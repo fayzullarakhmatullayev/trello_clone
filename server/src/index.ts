@@ -8,9 +8,6 @@ import { dbConnection } from './libs/sequelize';
 import authRoutes from './api/auth/auth.routes';
 import cardRoutes from './api/card/card.routes';
 import taskRoutes from './api/task/task.routes';
-import User from './api/user/user.model';
-import Card from './api/card/card.model';
-import Task from './api/task/task.model';
 
 dotenv.config();
 const app = express();
