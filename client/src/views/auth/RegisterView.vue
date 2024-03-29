@@ -1,5 +1,5 @@
 <template>
-  <h2 class="auth__block--subtitle">Зарегистрироваться в Trello Clone</h2>
+  <h2 class="auth__block--subtitle">Register a new account</h2>
   <form class="auth__block--form" @submit.prevent="submitHandler">
     <FloatLabel>
       <InputText
@@ -8,11 +8,11 @@
         required
         v-model="inputValues.firstName"
       />
-      <label for="firstName">Имя</label>
+      <label for="firstName">First Name</label>
     </FloatLabel>
     <FloatLabel>
       <InputText class="auth__block--input" id="lastName" required v-model="inputValues.lastName" />
-      <label for="lastName">Фамилия</label>
+      <label for="lastName">Last Name</label>
     </FloatLabel>
     <FloatLabel>
       <InputText
@@ -22,7 +22,7 @@
         id="email"
         v-model="inputValues.email"
       />
-      <label for="email">Электронная почта</label>
+      <label for="email">Email</label>
     </FloatLabel>
     <FloatLabel>
       <InputText
@@ -32,7 +32,7 @@
         id="password"
         v-model="inputValues.password"
       />
-      <label for="password">Пароль</label>
+      <label for="password">Password</label>
     </FloatLabel>
     <FloatLabel>
       <InputText
@@ -42,12 +42,12 @@
         id="re-password"
         v-model="inputValues.rePassword"
       />
-      <label for="re-password">Введите пароль повторно</label>
+      <label for="re-password">Repeat password</label>
     </FloatLabel>
-    <button type="submit" class="btn btn--primary">Зарегистрироваться</button>
+    <button type="submit" class="btn btn--primary min-w-[180px]">Register</button>
   </form>
   <div class="auth__block--text">
-    У вас уже есть аккаунт? <RouterLink to="/login">Войдите</RouterLink>
+    Already have an account? <RouterLink to="/login">Login</RouterLink>
   </div>
 </template>
 
@@ -76,7 +76,7 @@ const submitHandler = async () => {
     if (inputValues.password !== inputValues.rePassword) {
       toast.add({
         severity: 'error',
-        summary: 'Пароли не совпадают',
+        summary: "The passwords don't match",
         life: 3000
       })
       return

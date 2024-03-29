@@ -6,6 +6,6 @@ const router = Router();
 router.post('/', authMiddleware, createTask);
 router.put('/:task_id', authMiddleware, updateTask);
 router.delete('/:task_id', authMiddleware, deleteTask);
-router.put('/update-position', authMiddleware, updateTaskPosition);
+router.post('/update-position', authMiddleware, updateTaskPosition);
 
 export default router;

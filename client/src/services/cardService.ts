@@ -1,6 +1,6 @@
 import type { AxiosResponse } from 'axios'
 import { $api } from '@/utils/baseHttp'
-import type { CardDto, ICard } from './dto/card.dto'
+import type { CardDto, CardPositionDto, ICard } from './dto/card.dto'
 
 export const getAllCards = () => {
   return $api.get<ICard[]>('/card')
@@ -16,4 +16,9 @@ export const removeCard = (card_id: number) => {
 
 export const updateCard = (payload: { card_id: number; title: string }) => {
   return $api.put(`/card/${payload.card_id}`, { title: payload.title })
+}
+
+export const updateCardPosition = (cardPositions: CardPositionDto[]) => {
+  console.log(cardPositions)
+  return $api.post(`/card/update-position`, { cardPositions })
 }

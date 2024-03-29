@@ -1,6 +1,11 @@
 <template>
   <div class="wrapper flex items-start gap-4">
-    <draggable :list="cardItems" class="flex gap-4 flex-1" itemKey="card_id">
+    <draggable
+      :list="cardItems"
+      class="flex gap-4 flex-1"
+      itemKey="card_id"
+      @change="dragChangeHandler"
+    >
       <template #item="{ element: card }">
         <Card :card="card" />
       </template>
@@ -8,12 +13,12 @@
     <div class="add__more--wrapper">
       <button class="add__more" @click="isFormOpen = true" v-if="!isFormOpen">
         <PlusIcon />
-        <span>Добавьте еще одну колонку</span>
+        <span>Add one more column</span>
       </button>
       <div class="add__more--form" v-else>
         <CardForm
-          placeholder="Ввести заголовок списка"
-          btnTitle="Добавить список"
+          placeholder="Enter the column header"
+          btnTitle="Add column"
           rows="1"
           @closeForm="isFormOpen = false"
           @submitHandler="addMoreHandler"
@@ -29,7 +34,7 @@ import draggable from 'vuedraggable'
 import { useToast } from 'primevue/usetoast'
 
 import type { ICard } from '@/services/dto/card.dto'
-import { getAllCards, postCard } from '@/services/cardService'
+import { getAllCards, postCard, updateCardPosition } from '@/services/cardService'
 import { useCardStore } from '@/stores/card'
 
 import Card from '@/components/card/Card.vue'
@@ -61,6 +66,15 @@ const addMoreHandler = async (title: string) => {
     await fetchAllCards()
     isFormOpen.value = false
   }
+}
+
+const dragChangeHandler = async () => {
+  const cardPositionsPayload = cardItems.value.map((card, index) => ({
+    card_id: card.card_id,
+    position: index
+  }))
+
+  await updateCardPosition(cardPositionsPayload)
 }
 
 watch(
@@ -99,11 +113,13 @@ onBeforeUnmount(() => {
   border-radius: 6px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 14px;
   transition: all 0.3s ease;
   &:hover {
     background-color: rgba($color: #ffffff, $alpha: 0.8);
     color: #101204;
+    font-weight: 500;
     svg {
       fill: #101204;
     }

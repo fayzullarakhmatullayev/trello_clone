@@ -2,12 +2,12 @@
   <div class="card__footer">
     <button class="btn w-full" @click="isFormVisible = true" v-if="!isFormVisible">
       <PlusIcon />
-      <span>Добавить карточку</span>
+      <span>Add card</span>
     </button>
     <CardForm
       v-else
-      placeholder="Ввести заголовок для этой карточки"
-      btnTitle="Добавить карточку"
+      placeholder="Enter a title for this card"
+      btnTitle="Add card"
       rows="3"
       @closeForm="isFormVisible = false"
       @submitHandler="submitHandler"

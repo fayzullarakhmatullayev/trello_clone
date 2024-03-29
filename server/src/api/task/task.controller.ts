@@ -72,8 +72,7 @@ export const deleteTask = async (req: Request, res: Response) => {
 
 export const updateTaskPosition = async (req: Request, res: Response) => {
   try {
-    const { taskPositions } = req.body; // taskOrder is an array of task IDs with their new positions
-    // Example taskOrder: [{ taskId: 1, position: 0 }, { taskId: 2, position: 1 }, ...]
+    const { taskPositions } = req.body;
 
     // Update the order of tasks in the database
     await Promise.all(

@@ -7,6 +7,7 @@
         group="cards"
         class="flex flex-col gap-3 overflow-y-auto card__list"
         itemKey="id"
+        @change="dragChangeHandler"
       >
         <template #item="{ element: task }">
           <CardItem :task="task" />
@@ -27,7 +28,7 @@ import CardItem from '@/components/card/CardItem.vue'
 import CardFooter from '@/components/card/CardFooter.vue'
 import type { ICard } from '@/services/dto/card.dto'
 
-import { postCardTask } from '@/services/taskService'
+import { postCardTask, updateTaskPosition } from '@/services/taskService'
 import { useCardStore } from '@/stores/card'
 import { sleep } from '@/utils'
 
@@ -50,6 +51,15 @@ const addTask = async (text: string) => {
       cardList.scrollIntoView({ block: 'end' })
     })
   }
+}
+
+const dragChangeHandler = async () => {
+  const taskPositions = props.card.tasks.map((task, index) => ({
+    card_id: props.card.card_id,
+    task_id: task.task_id,
+    position: index
+  }))
+  await updateTaskPosition(taskPositions)
 }
 </script>
 

@@ -22,7 +22,7 @@
     <div class="w-full p-1" v-else>
       <CardForm
         rows="1"
-        btnTitle="Сохранить"
+        btnTitle="Save changes"
         :textAreaValue="task.text"
         @close-form="isFormOpen = false"
         @submit-handler="submitHandler"
@@ -52,12 +52,12 @@ const store = useCardStore()
 const menu = ref()
 const items = ref([
   {
-    label: 'Редактировать',
+    label: 'Edit',
     icon: 'pi pi-pencil',
     name: 'edit'
   },
   {
-    label: 'Удалить',
+    label: 'Delete',
     icon: 'pi pi-trash',
     name: 'delete'
   }

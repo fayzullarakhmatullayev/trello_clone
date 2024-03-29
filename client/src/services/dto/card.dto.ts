@@ -14,3 +14,8 @@ export interface ICard {
   updatedAt: Date
   tasks: ITask[]
 }
+
+export interface CardPositionDto {
+  position: number
+  card_id: number
+}

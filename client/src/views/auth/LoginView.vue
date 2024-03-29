@@ -1,5 +1,5 @@
 <template>
-  <h2 class="auth__block--subtitle">Вход в Trello Clone</h2>
+  <h2 class="auth__block--subtitle">Login to your account</h2>
   <form class="auth__block--form" @submit.prevent="submitHandler">
     <FloatLabel>
       <InputText
@@ -9,7 +9,7 @@
         id="email"
         v-model="inputValues.email"
       />
-      <label for="email">Электронная почта</label>
+      <label for="email">Email</label>
     </FloatLabel>
     <FloatLabel>
       <InputText
@@ -19,12 +19,12 @@
         id="password"
         v-model="inputValues.password"
       />
-      <label for="password">Пароль</label>
+      <label for="password">Password</label>
     </FloatLabel>
-    <button type="submit" class="btn btn--primary">Вход в систему</button>
+    <button type="submit" class="btn btn--primary min-w-[180px]">Submit</button>
   </form>
   <div class="auth__block--text">
-    У вас нет аккаунта? <RouterLink to="/register">Зарегистрируйтесь</RouterLink>
+    Don't you have an account? <RouterLink to="/register">Register</RouterLink>
   </div>
 </template>
 

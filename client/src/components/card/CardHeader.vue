@@ -39,7 +39,7 @@ const props = defineProps<{ card: ICard }>()
 
 const store = useCardStore()
 const menu = ref()
-const items = ref([{ label: 'Удалить', icon: 'pi pi-trash' }])
+const items = ref([{ label: 'Delete', icon: 'pi pi-trash' }])
 
 const toggle = (event: any) => {
   menu.value.toggle(event)

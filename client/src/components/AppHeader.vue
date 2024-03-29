@@ -6,7 +6,7 @@
       >
       <div class="header__user flex items-center gap-2">
         <div class="header__user--name">
-          Добро пожаловать, <span>{{ store.user?.firstName }} {{ store.user?.lastName }}</span>
+          Welcome, <span>{{ store.user?.firstName }} {{ store.user?.lastName }}</span>
         </div>
         <button
           class="header__user--avatar"
@@ -34,7 +34,7 @@ import Menu from 'primevue/menu'
 import { useAuthStore } from '@/stores/auth'
 const items = ref([
   {
-    label: 'Выход из системы',
+    label: 'Logout',
     icon: 'pi pi-sign-out'
   }
 ])

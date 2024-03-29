@@ -12,3 +12,9 @@ export interface ITask {
   createdAt: Date
   updatedAt: Date
 }
+
+export interface TaskPositionDto {
+  position: number
+  card_id: number
+  task_id: number
+}
