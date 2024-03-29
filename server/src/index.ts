@@ -8,6 +8,9 @@ import { dbConnection } from './libs/sequelize';
 import authRoutes from './api/auth/auth.routes';
 import cardRoutes from './api/card/card.routes';
 import taskRoutes from './api/task/task.routes';
+import User from './api/user/user.model';
+import Card from './api/card/card.model';
+import Task from './api/task/task.model';
 
 dotenv.config();
 const app = express();
@@ -27,6 +30,10 @@ app.use('/api/card', cardRoutes);
 app.use('/api/task', taskRoutes);
 
 app.listen(PORT, async () => {
-  await dbConnection();
-  console.log(`App is running on ${process.env.APP_DOMAIN}:${PORT}`);
+  try {
+    await dbConnection();
+    console.log(`App is running on ${process.env.APP_DOMAIN}:${PORT}`);
+  } catch (err: any) {
+    console.log(err);
+  }
 });

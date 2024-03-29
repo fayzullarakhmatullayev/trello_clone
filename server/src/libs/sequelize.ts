@@ -3,17 +3,11 @@ import { Sequelize } from 'sequelize';
 
 dotenv.config();
 
-const sequelize = new Sequelize(
-  process.env.DB_DATABASE!,
-  process.env.DB_USERNAME!,
-  process.env.DB_PASSWORD!,
-  {
-    host: process.env.DB_HOST!,
-    port: Number(process.env.DB_PORT),
-    dialect: 'postgres',
-    logging: false
-  }
-);
+const sequelize = new Sequelize(process.env.DB_HOST!, {
+  dialect: 'postgres',
+  logging: false,
+  retry: { max: 10 }
+});
 
 export const dbConnection = async () => {
   try {
